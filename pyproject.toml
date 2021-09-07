@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "action-tests"
+name = "badook AI GitHub Actions"
 version = "0.0.0"
 description = ""
 authors = ["badook Engineering <engineering@badook.ai>"]

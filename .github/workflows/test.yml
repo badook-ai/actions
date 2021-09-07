@@ -1,10 +1,10 @@
-name: Lint
+name: Lint & Test Actions
 
 on: [ pull_request ]
 
 jobs:
-  lint:
-    name: Lint Code
+  test:
+    name: Lint & Test Actions
     runs-on: ubuntu-latest
 
     steps:
@@ -15,41 +15,9 @@ jobs:
         uses: actions/setup-python@v2
       - name: Install pre-commit
         run: pip install pre-commit
-      - name: Load pre-commit cache
-        id: cached-pre-commit
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/pre-commit/
-          key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
-      - name: Run Pre-Commit Checks
-        run: pre-commit run --show-diff-on-failure --color=always --all-files
-
-  test-cached-install-poetry:
-    name: 'Test "Cached Install Poetry"'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
-      - name: Set up python
-        id: setup-python
-        uses: actions/setup-python@v2
-      - name: Run Action
-        uses: ./cached-install-poetry
-
-  test-cached-poetry-install-dependencies:
-    name: 'Test "Cached Poetry Install Dependencies"'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
-      - name: Set up python
-        id: setup-python
-        uses: actions/setup-python@v2
       - name: Install Poetry
         uses: ./cached-install-poetry
-      - name: Run Action
+      - name: Pre-Commit
+        uses: ./cached-pre-commit-run
+      - name: Poetry Install Dependencies
         uses: ./cached-poetry-install-dependencies
-        with:
-          rootdir: 'test'

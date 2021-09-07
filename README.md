@@ -34,3 +34,6 @@ Internally, the actions uses the following 3rd-party actions:
 * [zwaldowski/semver-release-action](https://github.com/zwaldowski/semver-release-action)
 * [peter-evans/find-comment](https://github.com/peter-evans/find-comment)
 * [peter-evans/create-or-update-comment](https://github.com/peter-evans/create-or-update-comment)
+
+### Cached Pre-Commit Run
+This action executes `pre-commit run` within a `poetry` context in a cached manner. It caches the created virtual environment for future use. The action assumes that `poetry` and `pre-commit` are already installed.
