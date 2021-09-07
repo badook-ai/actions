@@ -1,0 +1,23 @@
+name: 'Cached Poetry Install Dependencies'
+description: 'This action executes `poetry install` in a cached manner. It caches the created virtual environment for future use.'
+runs:
+  using: "composite"
+  steps:
+    - name: Get Python Version
+      id: get-python-version
+      shell: bash
+      run: echo "::set-output name=version::$(python --version | sed -e 's/^Python //')"
+    - name: Load cached venv
+      id: cached-poetry-dependencies
+      uses: actions/cache@v2
+      with:
+        path: .venv
+        key: venv-${{ runner.os }}-${{ steps.get-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
+    - name: Set poetry environment version
+      shell: bash
+      run: |
+        [[ "${{ steps.cached-poetry-dependencies.outputs.cache-hit }}" != true ]] && poetry env use ${{ steps.get-python-version.outputs.version }} || true
+    - name: Install dependencies
+      shell: bash
+      run: |
+        [[ "${{ steps.cached-poetry-dependencies.outputs.cache-hit }}" != true ]] && poetry install --no-interaction --no-root || true
