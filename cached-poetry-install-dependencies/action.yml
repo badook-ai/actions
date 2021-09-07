@@ -12,7 +12,7 @@ runs:
       uses: actions/cache@v2
       with:
         path: .venv
-        key: removeme8-venv-${{ runner.os }}-${{ steps.get-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
+        key: removeme9-venv-${{ runner.os }}-${{ steps.get-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
     - name: Set poetry environment version
       shell: bash
       run: if [[ "${{ steps.cached-poetry-dependencies.outputs.cache-hit }}" != "true" ]]; then poetry env use ${{ steps.get-python-version.outputs.version }}; fi
