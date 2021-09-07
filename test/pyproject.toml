@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "action-tests"
+version = "0.0.0"
+description = ""
+authors = ["badook Engineering <engineering@badook.ai>"]
+license = "Apache License 2.0"
+
+[tool.poetry.dependencies]
+python = "^3.7.0"
+
+[tool.poetry.dev-dependencies]
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+style = "semver"
+dirty = true
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=0.13.1"]
+build-backend = "poetry.core.masonry.api"
