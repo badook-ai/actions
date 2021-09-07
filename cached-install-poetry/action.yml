@@ -22,7 +22,7 @@ runs:
     - name: Get Python Version
       id: get-python-version
       shell: bash
-      run: echo "::set-output name=version::$(python --version)"
+      run: echo "::set-output name=version::$(python --version | sed -e 's/^Python //')"
     - name: Load cached Poetry installation
       uses: actions/cache@v2
       with:
