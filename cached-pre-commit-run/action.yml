@@ -1,0 +1,13 @@
+name: 'Cached Pre-Commit-Run'
+description: 'This action executes `pre-commit run` within a `poetry` context in a cached manner. It caches the created virtual environment for future use. The action assumes that poetry and pre-commit are already installed.'
+runs:
+  using: "composite"
+  steps:
+    - name: Load pre-commit cache
+      id: cached-pre-commit
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pre-commit/
+        key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
+    - name: Run Pre-Commit Checks
+      run: poetry run pre-commit run --show-diff-on-failure --color=always --all-files
