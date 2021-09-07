@@ -1,0 +1,69 @@
+name: 'Tag Version'
+description: 'This action is used to automatically manage repo version following pull-requests. It also comments on the PR with the expected/actual version for the tag following the PR.'
+inputs:
+  github_token:
+    description: 'GITHUB_TOKEN or a repo scoped PAT.'
+    default: ${{ github.token }}
+    required: false
+  allowed_labels:
+    description: 'The allowed labels to check for'
+    required: false
+    default: semver:major,semver:minor,semver:patch,semver:premajor,semver:preminor,semver:prepatch,semver:prerelease
+  dry_run:
+    description: 'A flag indicating whether the commit should be tagged'
+    required: true
+outputs:
+  bump:
+    description: 'The type of version bump detected (major, minor, patch, etc.)'
+    value: ${{ steps.bump.outputs.match }}
+  version:
+    description: 'The expected version'
+    value: ${{ steps.tag-version.outputs.version }}
+runs:
+  using: "composite"
+  steps:
+    - name: Get Version Bump Label
+      id: bump-label
+      uses: zwaldowski/match-label-action@v2
+      with:
+        allowed: ${{ inputs.allowed_labels }}
+    - name: Get Version Bump
+      id: bump
+      shell: bash
+      run: echo "::set-output name=match::$(echo  ${{ steps.bump-label.outputs.match }} | sed -e 's/^semver://')"
+    - name: Tag Version
+      id: tag-version
+      uses: zwaldowski/semver-release-action@v2
+      with:
+        bump: ${{ steps.bump.outputs.match }}
+        github_token: ${{ inputs.github_token }}
+        prefix: v
+        preid: pre
+        dry_run: ${{ inputs.dry_run }}
+
+    # Comment with expected version
+    - name: Find Comment
+      uses: peter-evans/find-comment@v1
+      id: fc
+      with:
+        issue-number: ${{ github.event.pull_request.number }}
+        comment-author: 'github-actions[bot]'
+        body-includes: Output Version
+        token: ${{ inputs.github_token }}
+    - name: Calculate opening phrase
+      id: calculate-phrase
+      shell: bash
+      run: |
+        if ${{ inputs.dry_run }}; then PHRASE="Expected"; else PHRASE="Published"; fi;
+        echo "::set-output name=phrase::$PHRASE"
+    - name: Create or update comment
+      uses: peter-evans/create-or-update-comment@v1
+      with:
+        comment-id: ${{ steps.fc.outputs.comment-id }}
+        issue-number: ${{ github.event.pull_request.number }}
+        body: |
+          ## Output Version :rocket:
+          ${{ steps.calculate-phrase.outputs.phrase }} output version: **${{ steps.tag-version.outputs.version }}**
+          This is a **${{ steps.bump.outputs.match }}** version.
+        edit-mode: replace
+        token: ${{ inputs.github_token }}

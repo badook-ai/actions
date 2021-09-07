@@ -1,0 +1,26 @@
+name: Validate PR SemVer
+
+on:
+  pull_request_target:
+    branches: [ main ]
+    types: [ synchronize, labeled, unlabeled ]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+concurrency:
+  group: validate-labels-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate-semver:
+    name: Validate SemVer Labels
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Check SemVer Labels
+        uses: ./tag-version
+        with:
+          dry_run: true
