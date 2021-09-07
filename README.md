@@ -34,3 +34,5 @@ Internally, the actions uses the following 3rd-party actions:
 * [zwaldowski/semver-release-action](https://github.com/zwaldowski/semver-release-action)
 * [peter-evans/find-comment](https://github.com/peter-evans/find-comment)
 * [peter-evans/create-or-update-comment](https://github.com/peter-evans/create-or-update-comment)
+
+DO NOT COMMIT!
