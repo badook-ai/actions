@@ -23,3 +23,16 @@ jobs:
           key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
       - name: Run Pre-Commit Checks
         run: pre-commit run --show-diff-on-failure --color=always --all-files
+
+  test-cached-install-poetry:
+    name: 'Test "Cached Install Poetry"'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Set up python
+        id: setup-python
+        uses: actions/setup-python@v2
+      - name: Run Action
+        uses: ./cached-install-poetry
