@@ -12,12 +12,12 @@ runs:
       uses: actions/cache@v2
       with:
         path: .venv
-        key: removeme3-venv-${{ runner.os }}-${{ steps.get-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
+        key: removeme4-venv-${{ runner.os }}-${{ steps.get-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}
     - name: Set poetry environment version
-      shell: /bin/bash -e
+      shell: /bin/bash -e {0}
       run: |
         if "${{ steps.cached-poetry-dependencies.outputs.cache-hit }}" != "true"; then poetry env use ${{ steps.get-python-version.outputs.version }}; fi;
     - name: Install dependencies
-      shell: /bin/bash -e
+      shell: /bin/bash -e {0}
       run: |
         if "${{ steps.cached-poetry-dependencies.outputs.cache-hit }}" != "true"; then poetry install --no-interaction --no-root; fi;
