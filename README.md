@@ -1,5 +1,5 @@
-# actions
-Custom GitHub actions required for badook AI CI/CD pipelines.
+# Custom badook AI GitHub Actions
+This repository contains custom GitHub actions required for badook AI CI/CD pipelines.
 
 ## Contributing
 This repository uses [`pre-commit`](https://pre-commit.com/) for checking files committed to the repository. Install `pre-commit` by following the [installation guide](https://pre-commit.com/#install).
