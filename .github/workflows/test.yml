@@ -1,10 +1,10 @@
-name: Lint
+name: Lint & Test Actions
 
 on: [ pull_request ]
 
 jobs:
-  lint:
-    name: Lint Code
+  test:
+    name: Lint & Test Actions
     runs-on: ubuntu-latest
 
     steps:
@@ -17,20 +17,7 @@ jobs:
         run: pip install pre-commit
       - name: Install Poetry
         uses: ./cached-install-poetry
-      - name: Run Pre-Commit
+      - name: Pre-Commit
         uses: ./cached-pre-commit-run
-
-  test-cached-poetry-install-dependencies:
-    name: 'Test "Cached Poetry Install Dependencies"'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
-      - name: Set up python
-        id: setup-python
-        uses: actions/setup-python@v2
-      - name: Install Poetry
-        uses: ./cached-install-poetry
-      - name: Run Action
+      - name: Poetry Install
         uses: ./cached-poetry-install-dependencies
