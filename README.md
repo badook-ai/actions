@@ -15,4 +15,4 @@ Internally, the actions uses the following 3rd-party actions:
 * [snok/install-poetry](https://github.com/snok/install-poetry)
 
 ### Cached Poetry Install Dependencies
-This action executes `poetry install` in a cached manner. It caches the created virtual environment for future use.
+This action executes `poetry install` in a cached manner. It caches the created virtual environment for future use. The action assumes that poetry is already installed.
