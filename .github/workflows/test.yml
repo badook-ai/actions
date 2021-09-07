@@ -19,5 +19,5 @@ jobs:
         uses: ./cached-install-poetry
       - name: Pre-Commit
         uses: ./cached-pre-commit-run
-      - name: Poetry Install
+      - name: Poetry Install Dependencies
         uses: ./cached-poetry-install-dependencies
