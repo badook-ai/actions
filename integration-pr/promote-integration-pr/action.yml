@@ -1,0 +1,51 @@
+name: "Open Integration PR"
+description: "This action opens an integration PR in a draft state."
+inputs:
+  integration_token:
+    description: "GITHUB_TOKEN or a repo scoped PAT to access the integration repository."
+    required: true
+  integration_repository:
+    description: "The integration repository to open a PR in"
+    required: true
+  integrated_component:
+    description: "The name of the component being integrated"
+    required: true
+  transformation:
+    description: "The bash transformation to perform on the integration repository (e.g. update version numbers)"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout the Integration Repository
+      uses: actions/checkout@v2
+      with:
+        token: ${{ inputs.integration_token }}
+        repository: ${{ inputs.integration_repository }}
+    - name: Edit the required repository files
+      shell: bash
+      run: ${{ inputs.transformation }}
+    - name: Update PR
+      id: update-pr
+      uses: peter-evans/create-pull-request@v3
+      with:
+        token: ${{ inputs.integration_token }}
+        commit-message: "Update ${{ inputs.integrated-component }} version to '${{ needs.publish-stable-image.outputs.version }}'"
+        committer: badook Bot <badookbot@badook.ai>
+        author: badook Bot <badookbot@badook.ai>
+        branch: integration/${{ inputs.integrated-component }}/pr-${{ github.event.pull_request.number }}
+        title: "Update ${{ inputs.integrated-component }} version to '${{ needs.publish-stable-image.outputs.version }}'"
+        body: |
+          This is an automated integration PR created for [${{ inputs.integrated-component }} PR #${{ github.event.pull_request.number }}](${{ github.event.pull_request.url }}).
+          The PR content can be found below.
+
+          **Title:** ${{ github.event.pull_request.title }}
+
+          **Body:**
+          ${{ github.event.pull_request.body }}
+        assignees: ${{ github.event.pull_request.user.login }}
+        draft: false
+    - name: Set PR as Ready for Review
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ secrets.BADOOK_BOT_PAT }}
+      run: gh pr ready ${{ steps.update-pr.outputs.pull-request-url }}
