@@ -1,0 +1,30 @@
+name: "Close Integration PR"
+description: "This action closes an integration PR when it is no longer needed."
+inputs:
+  integration_token:
+    description: "GITHUB_TOKEN or a repo scoped PAT to access the integration repository."
+    required: true
+  integration_repository:
+    description: "The integration repository to open a PR in"
+    required: true
+  integrated_component:
+    description: "The name of the component being integrated"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout the Integration Repository
+      uses: actions/checkout@v2
+      with:
+        token: ${{ inputs.integration_token }}
+        repository: ${{ inputs.integration_repository }}
+    - name: Close PR
+      # The action will implicitly close the PR once there are no changes vs the base branch
+      uses: peter-evans/create-pull-request@v3
+      with:
+        token: ${{ inputs.integration_token }}
+        commit-message: "Reverting the integration changes"
+        committer: badook Bot <badookbot@badook.ai>
+        author: badook Bot <badookbot@badook.ai>
+        branch: integration/${{ inputs.integrated-component }}/pr-${{ github.event.pull_request.number }}
+        delete-branch: true
