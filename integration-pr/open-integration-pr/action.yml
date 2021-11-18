@@ -42,11 +42,22 @@ runs:
           It will be updated and promoted to a non-draft status once that PR is merged.
         assignees: ${{ github.event.pull_request.user.login }}
         draft: true
-    - name: Create comment
+
+    - name: Find Comment
+      uses: peter-evans/find-comment@v1
+      id: fc
+      with:
+        issue-number: ${{ github.event.pull_request.number }}
+        comment-author: "github-actions[bot]"
+        body-includes: Integration PR
+        token: ${{ inputs.github_token }}
+    - name: Create or update comment
       uses: peter-evans/create-or-update-comment@v1
       with:
+        comment-id: ${{ steps.fc.outputs.comment-id }}
         issue-number: ${{ github.event.pull_request.number }}
         body: |
           ## Integration PR :zap:
           An integration PR for this PR was created [here](${{ steps.create-draft-pr.outputs.pull-request-url }})
+        edit-mode: replace
         token: ${{ inputs.github_token }}
