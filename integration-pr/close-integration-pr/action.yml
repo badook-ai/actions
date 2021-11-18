@@ -26,5 +26,5 @@ runs:
         commit-message: "Reverting the integration changes"
         committer: badook Bot <badookbot@badook.ai>
         author: badook Bot <badookbot@badook.ai>
-        branch: integration/${{ inputs.integrated-component }}/pr-${{ github.event.pull_request.number }}
+        branch: integration/${{ inputs.integrated_component }}/pr-${{ github.event.pull_request.number }}
         delete-branch: true

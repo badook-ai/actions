@@ -29,13 +29,13 @@ runs:
       uses: peter-evans/create-pull-request@v3
       with:
         token: ${{ inputs.integration_token }}
-        commit-message: "Update ${{ inputs.integrated-component }} version to '${{ needs.publish-stable-image.outputs.version }}'"
+        commit-message: "Update ${{ inputs.integrated_component }} version to '${{ needs.publish-stable-image.outputs.version }}'"
         committer: badook Bot <badookbot@badook.ai>
         author: badook Bot <badookbot@badook.ai>
-        branch: integration/${{ inputs.integrated-component }}/pr-${{ github.event.pull_request.number }}
-        title: "Update ${{ inputs.integrated-component }} version to '${{ needs.publish-stable-image.outputs.version }}'"
+        branch: integration/${{ inputs.integrated_component }}/pr-${{ github.event.pull_request.number }}
+        title: "Update ${{ inputs.integrated_component }} version to '${{ needs.publish-stable-image.outputs.version }}'"
         body: |
-          This is an automated integration PR created for [${{ inputs.integrated-component }} PR #${{ github.event.pull_request.number }}](${{ github.event.pull_request.url }}).
+          This is an automated integration PR created for [${{ inputs.integrated_component }} PR #${{ github.event.pull_request.number }}](${{ github.event.pull_request.url }}).
           The PR content can be found below.
 
           **Title:** ${{ github.event.pull_request.title }}
