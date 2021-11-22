@@ -24,11 +24,6 @@ runs:
       with:
         token: ${{ inputs.integration_token }}
         repository: ${{ inputs.integration_repository }}
-    - name: Checkout previous user changes if they exist
-      shell: bash
-      env:
-        GITHUB_TOKEN: ${{ inputs.integration_token }}
-      run: gh pr checkout integration/${{ inputs.integrated_component }}/pr-${{ github.event.pull_request.number }} > /dev/null || true
     - name: Edit the required repository files
       shell: bash
       run: ${{ inputs.transformation }}
