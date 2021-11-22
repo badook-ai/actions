@@ -24,6 +24,11 @@ runs:
       with:
         token: ${{ inputs.integration_token }}
         repository: ${{ inputs.integration_repository }}
+    - name: Checkout previous user changes if they exist
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.integration_token }}
+      run: gh pr checkout integration/${{ inputs.integrated_component }}/pr-${{ github.event.pull_request.number }} > /dev/null || true
     - name: Edit the required repository files
       shell: bash
       run: ${{ inputs.transformation }}
@@ -36,6 +41,7 @@ runs:
         committer: badook Bot <badookbot@badook.ai>
         author: badook Bot <badookbot@badook.ai>
         branch: integration/${{ inputs.integrated_component }}/pr-${{ github.event.pull_request.number }}
+        base: main
         title: "Update ${{ inputs.integrated_component }} version to 'pr-${{ github.event.pull_request.number }}'"
         body: |
           This is an automated integration PR created for  [${{ inputs.integrated_component }} PR #${{ github.event.pull_request.number }}](${{ github.event.pull_request.url }}).
