@@ -1,5 +1,5 @@
-name: "Open Integration PR"
-description: "This action opens an integration PR in a draft state."
+name: "Promote Integration PR"
+description: "This action promotes an integration PR from a 'draft' state to a 'ready' state."
 inputs:
   integration_token:
     description: "GITHUB_TOKEN or a repo scoped PAT to access the integration repository."
@@ -53,3 +53,8 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.integration_token }}
       run: gh pr ready ${{ steps.update-pr.outputs.pull-request-number }}
+    - name: Approve PR for Merging
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.integration_token }}
+      run: gh pr review ${{ steps.update-pr.outputs.pull-request-number }} --approve

@@ -40,6 +40,7 @@ runs:
         body: |
           This is an automated integration PR created for  [${{ inputs.integrated_component }} PR #${{ github.event.pull_request.number }}](${{ github.event.pull_request.url }}).
           It will be updated and promoted to a non-draft status once that PR is merged.
+        labels: semver:patch
         assignees: ${{ github.event.pull_request.user.login }}
         draft: true
 
