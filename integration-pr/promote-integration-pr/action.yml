@@ -49,7 +49,7 @@ runs:
         assignees: ${{ github.event.pull_request.user.login }}
         draft: false
     - name: Set PR as Ready for Review
-      if: steps.update-pr.outputs.pull-request-operation == "updated" # The PR will be created as ready for review if it was created at this stage
+      if: steps.update-pr.outputs.pull-request-operation == 'updated' # The PR will be created as ready for review if it was created at this stage
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.integration_token }}
