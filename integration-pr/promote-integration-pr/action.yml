@@ -54,8 +54,3 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.integration_token }}
       run: gh pr ready ${{ steps.update-pr.outputs.pull-request-number }}
-    - name: Approve PR for Merging
-      shell: bash
-      env:
-        GITHUB_TOKEN: ${{ inputs.integration_token }}
-      run: gh pr review ${{ steps.update-pr.outputs.pull-request-number }} --approve
