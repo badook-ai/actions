@@ -21,7 +21,7 @@ jobs:
       - name: Get Major Version
         id: get-major
         run: |
-          major=$(echo ${{ steps.tag-version.outputs.version }} | sed 's/\..*//')
+          major=$(echo "v${{ steps.tag-version.outputs.version }}" | sed 's/\..*//')
           echo "::set-output name=major::$major"
       - name: Tag Major Version
         uses: richardsimko/update-tag@v1
