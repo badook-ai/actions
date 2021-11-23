@@ -2,8 +2,8 @@ name: Publish
 
 on:
   pull_request:
-    branches: [ main ]
-    types: [ closed ]
+    branches: [main]
+    types: [closed]
 
 jobs:
   tag-version:
@@ -14,6 +14,18 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
       - name: Tag Version
+        id: tag-version
         uses: ./tag-version
         with:
           dry_run: false
+      - name: Get Major Version
+        id: get-major
+        run: |
+          major=$(echo ${{ steps.tag-version.outputs.version }} | sed 's/\..*//')
+          echo "::set-output name=major::$major"
+      - name: Tag Major Version
+        uses: richardsimko/update-tag@v1
+        with:
+          tag_name: ${{ steps.get-major.outputs.major }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
