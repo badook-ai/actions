@@ -39,7 +39,7 @@ runs:
         base: main
         title: "Update ${{ inputs.integrated_component }} version to '${{ inputs.version }}'"
         body: |
-          This is an automated integration PR created for [${{ inputs.integrated_component }} PR #${{ github.event.pull_request.number }}](${{ github.event.pull_request.url }}).
+          This is an automated integration PR created for [${{ inputs.integrated_component }} PR #${{ github.event.pull_request.number }}](${{ github.event.pull_request.html_url }}).
           The PR content can be found below.
 
           **Title:** ${{ github.event.pull_request.title }}
