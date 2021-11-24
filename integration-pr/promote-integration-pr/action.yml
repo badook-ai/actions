@@ -16,6 +16,10 @@ inputs:
   version:
     description: "The published artifact version"
     required: true
+  slack_bot_token:
+    description: "A token for posting notifications to Slack"
+    required: false
+    default: ""
 runs:
   using: "composite"
   steps:
@@ -54,3 +58,19 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.integration_token }}
       run: gh pr ready ${{ steps.update-pr.outputs.pull-request-number }}
+    - name: Find Slack user
+      id: find-slack-user
+      if: inputs.slack_bot_token != ''
+      uses: scribd/find-slack-user-action@v1
+      with:
+        slack-token: ${{ inputs.slack_bot_token }}
+    - name: Send Slack DM
+      if: steps.find-slack-user.outputs.found-user == 'true'
+      uses: pullreminders/slack-action@master
+      env:
+        SLACK_BOT_TOKEN: ${{ inputs.slack_bot_token }}
+        GITHUB_WORKFLOW_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        REF_URL: https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}
+        TITLE: Deployment of v${{ inputs.chart-version }} Succeeded
+      with:
+        args: '{\"channel\":\"${{ steps.find-slack-user.outputs.member-id }}\",\"blocks\":[{\"type\":\"section\",\"text\":{\"type\":\"mrkdwn\",\"text\":\"Your integration PR on <${{ steps.update-pr.outputs.pull-request-url }}|integration/${{ inputs.integrated_component }}/pr-${{ github.event.pull_request.number }}> is ready to review and merge\"}}]}'
