@@ -27,6 +27,12 @@ runs:
     - name: Edit the required repository files
       shell: bash
       run: ${{ inputs.transformation }}
+    - name: Set Assignee
+      id: set-assignee
+      shell: bash
+      run: |
+        ASSIGNEE=$(if [[ "${{ github.event.pull_request.user.login }}" != "dependabot[bot]" ]]; then echo "${{ github.event.pull_request.user.login }}"; else echo ""; fi)
+        echo "::set-output name=assignee::$ASSIGNEE"
     - name: Create Draft PR
       id: create-draft-pr
       uses: peter-evans/create-pull-request@v3
@@ -42,7 +48,7 @@ runs:
           This is an automated integration PR created for  [${{ inputs.integrated_component }} PR #${{ github.event.pull_request.number }}](${{ github.event.pull_request.html_url }}).
           It will be updated and promoted to a non-draft status once that PR is merged.
         labels: semver:patch
-        assignees: ${{ github.event.pull_request.user.login }}
+        assignees: ${{ steps.set-assignee.outputs.assignee }}
         draft: true
 
     - name: Find Comment
