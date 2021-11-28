@@ -46,8 +46,8 @@ runs:
 
           **Body:**
           ${{ github.event.pull_request.body }}
-        assignees: ${{ github.event.pull_request.user.login }}
-        reviewers: ${{ github.event.pull_request.user.login }}
+        assignees: ${{ github.event.sender.login }}
+        reviewers: ${{ github.event.sender.login }}
         draft: false
     - name: Set PR as Ready for Review
       if: steps.update-pr.outputs.pull-request-operation == 'updated' # The PR will be created as ready for review if it was created at this stage
