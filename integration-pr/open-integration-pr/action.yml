@@ -20,7 +20,7 @@ runs:
   using: "composite"
   steps:
     - name: Checkout the Integration Repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         token: ${{ inputs.integration_token }}
         repository: ${{ inputs.integration_repository }}
