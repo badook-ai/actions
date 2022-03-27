@@ -35,7 +35,7 @@ runs:
         echo "::set-output name=assignee::$ASSIGNEE"
     - name: Create Draft PR
       id: create-draft-pr
-      uses: peter-evans/create-pull-request@v3
+      uses: peter-evans/create-pull-request@v4
       with:
         token: ${{ inputs.integration_token }}
         commit-message: "Update ${{ inputs.integrated_component }} version to 'pr-${{ github.event.pull_request.number }}'"
