@@ -12,3 +12,87 @@ updates:
     labels:
       - "dependencies"
       - "semver:patch"
+  - package-ecosystem: "github-actions"
+    directory: "/cached-install-poetry"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "07:00"
+      timezone: "Australia/Melbourne"
+    assignees:
+      - "estiller"
+    labels:
+      - "dependencies"
+      - "semver:patch"
+  - package-ecosystem: "github-actions"
+    directory: "/cached-poetry-install-dependencies"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "07:00"
+      timezone: "Australia/Melbourne"
+    assignees:
+      - "estiller"
+    labels:
+      - "dependencies"
+      - "semver:patch"
+  - package-ecosystem: "github-actions"
+    directory: "/cached-pre-commit-run"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "07:00"
+      timezone: "Australia/Melbourne"
+    assignees:
+      - "estiller"
+    labels:
+      - "dependencies"
+      - "semver:patch"
+  - package-ecosystem: "github-actions"
+    directory: "/integration-pr/close-integration-pr"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "07:00"
+      timezone: "Australia/Melbourne"
+    assignees:
+      - "estiller"
+    labels:
+      - "dependencies"
+      - "semver:patch"
+  - package-ecosystem: "github-actions"
+    directory: "/integration-pr/open-integration-pr"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "07:00"
+      timezone: "Australia/Melbourne"
+    assignees:
+      - "estiller"
+    labels:
+      - "dependencies"
+      - "semver:patch"
+  - package-ecosystem: "github-actions"
+    directory: "/integration-pr/promote-integration-pr"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "07:00"
+      timezone: "Australia/Melbourne"
+    assignees:
+      - "estiller"
+    labels:
+      - "dependencies"
+      - "semver:patch"
+  - package-ecosystem: "github-actions"
+    directory: "/tag-version"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "07:00"
+      timezone: "Australia/Melbourne"
+    assignees:
+      - "estiller"
+    labels:
+      - "dependencies"
+      - "semver:patch"
