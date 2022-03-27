@@ -24,7 +24,7 @@ runs:
   steps:
     - name: Get Version Bump Label
       id: bump-label
-      uses: zwaldowski/match-label-action@v2
+      uses: zwaldowski/match-label-action@v3
       with:
         allowed: ${{ inputs.allowed_labels }}
     - name: Get Version Bump
