@@ -24,7 +24,7 @@ runs:
       shell: bash
       run: echo "::set-output name=version::$(python --version | sed -e 's/^Python //')"
     - name: Load cached Poetry installation
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ~/.local
         key: poetry-${{ inputs.version }}-${{ steps.get-python-version.outputs.version }}-install-with-dynamic-versioning-${{ inputs.dynamic-versioning }}

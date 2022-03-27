@@ -9,7 +9,7 @@ runs:
       run: echo "::set-output name=version::$(python --version | sed -e 's/^Python //')"
     - name: Load cached venv
       id: cached-poetry-dependencies
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: .venv
         key: venv-${{ runner.os }}-${{ steps.get-python-version.outputs.version }}-${{ hashFiles('**/poetry.lock') }}

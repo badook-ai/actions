@@ -5,7 +5,7 @@ runs:
   steps:
     - name: Load pre-commit cache
       id: cached-pre-commit
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: ~/.cache/pre-commit/
         key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
