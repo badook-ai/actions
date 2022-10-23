@@ -33,7 +33,7 @@ runs:
       run: echo "::set-output name=match::$(echo  ${{ steps.bump-label.outputs.match }} | sed -e 's/^semver://')"
     - name: Tag Version
       id: tag-version
-      uses: zwaldowski/semver-release-action@v2
+      uses: zwaldowski/semver-release-action@v3
       with:
         bump: ${{ steps.bump.outputs.match }}
         github_token: ${{ inputs.github_token }}
