@@ -20,7 +20,7 @@ runs:
         repository: ${{ inputs.integration_repository }}
     - name: Close PR
       # The action will implicitly close the PR once there are no changes vs the base branch
-      uses: peter-evans/create-pull-request@v4
+      uses: peter-evans/create-pull-request@v5
       with:
         token: ${{ inputs.integration_token }}
         commit-message: "Reverting the integration changes"
